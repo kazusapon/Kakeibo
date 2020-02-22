@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Eri.Views.IncomePage"
+             Title="{Binding Title}"
+             x:Name="BrowseItemsPage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="登録" Clicked="AddItem_Clicked" />
+    </ContentPage.ToolbarItems>
+
+    <StackLayout>
+        <ListView x:Name="ItemsListView"
+                ItemsSource="{Binding Items}"
+                VerticalOptions="EndAndExpand"
+                HasUnevenRows="true"
+                RefreshCommand="{Binding LoadItemsCommand}"
+                IsPullToRefreshEnabled="true"
+                IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                CachingStrategy="RecycleElement"
+                ItemSelected="OnItemSelected" BackgroundColor="#f0f0f0">
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Padding="30,10,10,10">
+                            <Image Source="{Binding ListImage}" /> 
+                            <Label Text="{Binding Payment_Date, StringFormat='{0:yyyy}年{0:MM}月{0:dd}日'}" 
+                                LineBreakMode="NoWrap" 
+                                Style="{DynamicResource ListItemTextStyle}" 
+                                FontSize="16" Padding="10,0,0,0" />
+                            <Label Text="{Binding Money, StringFormat='{0:#,0} 円'}" 
+                                LineBreakMode="NoWrap"             
+                                Style="{DynamicResource ListItemDetailTextStyle}"
+                                FontSize="16"
+                                Padding="20,0,0,0"
+                                FontAttributes="Bold"/>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+
+</ContentPage>
