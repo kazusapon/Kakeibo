@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Linq;
 using System.Reflection;
 using Xamarin.Forms;
 
@@ -22,10 +23,10 @@ namespace Eri.ViewModels
         public ItemsViewModel()
         {
             Title = "収入管理";
-            ListImage = ImageSource.FromResource("Eri.Images.pig.png");
+            ListImage = ImageSource.FromResource("Eri.Imeges.pig.png");
             Items = new ObservableCollection<Tra_Income>();
             
-            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand(DateTime.Today));
+            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
             MessagingCenter.Subscribe<NewItemPage, Tra_Income>(this, "AddItem", async (obj, item) =>
             {
@@ -35,7 +36,17 @@ namespace Eri.ViewModels
             });
         }
 
-        async Task ExecuteLoadItemsCommand(DateTime today)
+        public IEnumerable<Mst_Income> Get_Picker_List()
+        {
+            using (var db = new MyContext())
+            {
+                Income income = new Income(db);
+                var r = income.Get_MasterIncome();
+                return r;
+            }
+        }
+
+        async Task ExecuteLoadItemsCommand()
         {
             if (IsBusy)
                 return;

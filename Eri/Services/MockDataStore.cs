@@ -8,7 +8,7 @@ namespace Eri.Services
 {
     public class MockDataStore : IDataStore<Item>
     {
-        readonly List<Item> items;
+        //readonly List<Item> items;
 
         /*public MockDataStore()
         {

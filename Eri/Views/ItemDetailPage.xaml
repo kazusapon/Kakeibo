@@ -6,14 +6,17 @@
              mc:Ignorable="d"
              x:Class="Eri.Views.ItemDetailPage"
              Title="">
-    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="変更" Clicked="Edit_Click_Income"/>
+        <ToolbarItem Text="削除" Clicked="Delete_Clicked_Income"/>
+    </ContentPage.ToolbarItems>
 
     <ContentPage.Content>
         <StackLayout Spacing="20" Padding="40">
             <Label Text="金額" FontSize="Medium"/>
             <Label Text="{Binding Money, StringFormat='{0:#,0} 円'}" FontSize="17" FontAttributes="Bold" />
             <Label Text="支給日" FontSize="Medium" />
-            <Label Text="{Binding Payment_Date, StringFormat='{0:yyyy}年{0:MM}{0:dd}日'}"  FontSize="17" FontAttributes="Bold" />
+            <Label Text="{Binding Payment_Date, StringFormat='{0:yyyy}年{0:MM}月{0:dd}日'}"  FontSize="17" FontAttributes="Bold" />
             <Label Text="説明" FontSize="Medium" />
             <Label Text="{Binding Description}"  FontSize="17" FontAttributes="Bold"/>
         </StackLayout>

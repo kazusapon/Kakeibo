@@ -35,10 +35,10 @@ namespace Eri.Views
 
             //await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(item)));
             var nav = new ItemDetailPage(item);
+            ItemsListView.SelectedItem = null;
             await Navigation.PushAsync(nav);
 
             // Manually deselect item.
-            //ItemsListView.SelectedItem = null;
         }
 
         async void AddItem_Clicked(object sender, EventArgs e)

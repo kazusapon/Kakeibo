@@ -27,13 +27,12 @@
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout Padding="30,10,10,10">
-                            <Image Source="{Binding ListImage}" /> 
                             <Label Text="{Binding Payment_Date, StringFormat='{0:yyyy}年{0:MM}月{0:dd}日'}" 
                                 LineBreakMode="NoWrap" 
                                 Style="{DynamicResource ListItemTextStyle}" 
                                 FontSize="16" Padding="10,0,0,0" />
                             <Label Text="{Binding Money, StringFormat='{0:#,0} 円'}" 
-                                LineBreakMode="NoWrap"             
+                                LineBreakMode="NoWrap"
                                 Style="{DynamicResource ListItemDetailTextStyle}"
                                 FontSize="16"
                                 Padding="20,0,0,0"

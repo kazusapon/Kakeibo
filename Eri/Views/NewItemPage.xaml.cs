@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using Xamarin.Forms;
 using System.Linq;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.Threading;
 using System.Threading.Tasks;
+using Eri.ViewModels;
 
 using Eri.Models;
 
@@ -17,13 +18,23 @@ namespace Eri.Views
     public partial class NewItemPage : ContentPage
     {
         public Tra_Income Item { get; set; }
+        public IEnumerable<Mst_Income> PickerList { get; set; }
 
-        public NewItemPage()
+        public NewItemPage(Tra_Income viewdata=null)
         {
             InitializeComponent();
+            ItemsViewModel item = new ItemsViewModel();
+            PickerList = item.Get_Picker_List();
+            if (viewdata == null)
+            {
+                Item = new Tra_Income();
+                Item.Payment_Date = DateTime.Today;
+            }
+            else
+            {
+                Item = viewdata;
+            }
             BindingContext = this;
-            Item = new Tra_Income();
-
         }
         async void Save_Clicked(object sender, EventArgs e)
         {
@@ -39,7 +50,7 @@ namespace Eri.Views
                 {
                     User_Id = 1,
                     Income_Id = 1,
-                    Payment_Date = DateTime.Today,
+                    Payment_Date = Item.Payment_Date.Date,
                     Money = Item.Money,
                     Description = Item.Description,
                     Linked_Flag = false

@@ -16,6 +16,26 @@ namespace Eri.Models
             this._context = context;
         }
 
+        public IEnumerable<Mst_Income> Get_MasterIncome()
+        {
+            IEnumerable<Mst_Income> _result = this._context.Mst_Income.OrderBy(x => x.Id).AsEnumerable();
+            return _result;
+        }
+
+        public Tra_Income Income_Fetch(int id)
+        {
+            var _result = this._context.Tra_Income.FirstOrDefault(x => x.Id == id);
+            return _result;
+        }
+
+        public async void Delete_Income(int id)
+        {
+            var _result = this._context.Tra_Income.FirstOrDefault(x => x.Id == id);
+            this._context.Tra_Income.Remove(_result);
+            await this._context.SaveChangesAsync();
+            return;
+        }
+
         public IEnumerable<Tra_Income> Get_Income_List(int month)
         {
             IEnumerable<Tra_Income> result = null;
@@ -31,8 +51,8 @@ namespace Eri.Models
                     }).AsEnumerable();*/
             result = this._context.Tra_Income.Where(x => x.Payment_Date.Month == month)
                     .Where(x => x.Money > 0)
-                    .OrderByDescending(x => x.Payment_Date)
-                    .OrderByDescending(x => x.Id).AsEnumerable();
+                    .OrderByDescending(x => x.Payment_Date.Day)
+                    .AsEnumerable();
                 
             return result;
         }

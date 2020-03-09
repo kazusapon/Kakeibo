@@ -14,10 +14,13 @@
 
     <ContentPage.Content>
         <StackLayout Spacing="20" Padding="15">
+            <Label Text="分類" FontSize="Medium" />
+            <Picker Title="選択してください"  FontSize="Small" ItemsSource="{Binding PickerList}" SelectedItem="{Binding Item.Income_Id}"/>
             <Label Text="金額" FontSize="Medium" />
             <Entry Text="{Binding Item.Money}" FontSize="Small"/>
             <Label Text="支給日" FontSize="Medium" />
-            <Editor Text="{Binding Item.Payment_Date}" FontSize="Small" Margin="0"/>
+            <DatePicker Date="{Binding Item.Payment_Date}" FontSize="Small" Margin="0" Format="yyyy年MM月dd日" />
+            <!--<Editor Text="{Binding Item.Payment_Date}" FontSize="Small" Margin="0"/>-->
             <Label Text="説明" FontSize="Medium" />
             <Editor Text="{Binding Item.Description}" FontSize="Small" Margin="0" />
         </StackLayout>
