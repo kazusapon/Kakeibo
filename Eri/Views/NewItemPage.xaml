@@ -8,14 +8,14 @@
              Title="収入登録">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="保存" Clicked="Save_Clicked" />
+        <ToolbarItem Text="保存" x:Name="button" />
         <ToolbarItem Text="キャンセル" Clicked="Cancel_Clicked" />
     </ContentPage.ToolbarItems>
 
     <ContentPage.Content>
         <StackLayout Spacing="20" Padding="15">
             <Label Text="分類" FontSize="Medium" />
-            <Picker Title="選択してください"  FontSize="Small" ItemsSource="{Binding PickerList}" SelectedItem="{Binding Item.Income_Id}"/>
+            <Picker x:Name="MyPicker" FontSize="Small" ItemsSource="{Binding PickerList}" ItemDisplayBinding="{Binding Income_Name}" SelectedIndex="{Binding Selected}" />
             <Label Text="金額" FontSize="Medium" />
             <Entry Text="{Binding Item.Money}" FontSize="Small"/>
             <Label Text="支給日" FontSize="Medium" />

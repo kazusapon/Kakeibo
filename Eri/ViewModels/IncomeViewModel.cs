@@ -17,26 +17,36 @@ namespace Eri.ViewModels
     public class ItemsViewModel : BaseViewModel
     {
         //public ObservableCollection<Tra_Income> Items { get; set; }
-        public ObservableCollection<Tra_Income> Items { get; set; }
+        public ObservableCollection<IncomeDetail> Items { get; set; }
         public Command LoadItemsCommand { get; set; }
         public ImageSource ListImage { get; set; }
-        public ItemsViewModel()
+
+        public ItemsViewModel(int add_month=0)
         {
             Title = "収入管理";
-            ListImage = ImageSource.FromResource("Eri.Imeges.pig.png");
-            Items = new ObservableCollection<Tra_Income>();
-            
-            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
-            MessagingCenter.Subscribe<NewItemPage, Tra_Income>(this, "AddItem", async (obj, item) =>
+            if (Now.Year < 2000)
             {
-                var newItem = item as Tra_Income;
+                Now = DateTime.Now;
+            }
+
+            DateTime target_date = Now.AddMonths(add_month);
+            Now = Now.AddMonths(add_month);
+
+            ListImage = ImageSource.FromResource("Eri.Imeges.pig.png");
+            Items = new ObservableCollection<IncomeDetail>();
+            
+            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand(target_date));
+
+            MessagingCenter.Subscribe<NewItemPage, IncomeDetail>(this, "AddItem", async (obj, item) =>
+            {
+                var newItem = item as IncomeDetail;
                 Items.Add(newItem);
                 //await DataStore.AddItemAsync(newItem);
             });
         }
 
-        public IEnumerable<Mst_Income> Get_Picker_List()
+        public IList<Mst_Income> Get_Picker_List()
         {
             using (var db = new MyContext())
             {
@@ -46,7 +56,7 @@ namespace Eri.ViewModels
             }
         }
 
-        async Task ExecuteLoadItemsCommand()
+        async Task ExecuteLoadItemsCommand(DateTime target_date)
         {
             if (IsBusy)
                 return;
@@ -64,17 +74,12 @@ namespace Eri.ViewModels
                     //                            .AsEnumerable();
                     Income income = new Income(db);
 
-                    var result = income.Get_Income_List(DateTime.Now.Month);
+                    var result = income.Get_Income_List(target_date);
 
                     //var items = await DataStore.GetItemsAsync(true);
                     foreach (var item in result)
                     {
-                        Items.Add(new Tra_Income
-                        {
-                            Id = item.Id,
-                            Money = item.Money,
-                            Payment_Date = item.Payment_Date
-                        });
+                        Items.Add(item);
                     }
                 }
 

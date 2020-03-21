@@ -15,13 +15,11 @@ namespace Eri.Views
     public partial class ItemDetailPage : ContentPage
     {
         //ItemDetailViewModel viewModel;
-        Tra_Income viewModel;
+        IncomeDetail viewModel;
 
-        public ItemDetailPage(Tra_Income viewModel)
+        public ItemDetailPage(IncomeDetail viewModel)
         {
             InitializeComponent();
-            //viewModel.P
-
             BindingContext = this.viewModel = viewModel;
 
         }

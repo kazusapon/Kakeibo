@@ -28,6 +28,13 @@ namespace Eri.ViewModels
             set { SetProperty(ref title, value); }
         }
 
+        static DateTime now;
+        public DateTime Now
+        {
+            get { return now; }
+            set { now= value; }
+        }
+
         protected bool SetProperty<T>(ref T backingStore, T value,
             [CallerMemberName]string propertyName = "",
             Action onChanged = null)

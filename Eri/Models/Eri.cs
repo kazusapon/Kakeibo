@@ -11,6 +11,7 @@ namespace Eri.Models
         [Key]
         public int Id { get; set; }
         public string Spend_Name { get; set; }
+        public string Icon_Name { get; set; }
     }
 
     public class Mst_Income
@@ -18,6 +19,7 @@ namespace Eri.Models
         [Key]
         public int Id { get; set; }
         public string Income_Name { get; set; }
+        public string Icon_Name { get; set; }
     }
 
     public class Mst_Fixed

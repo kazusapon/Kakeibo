@@ -9,34 +9,65 @@
              x:Name="BrowseItemsPage">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="登録" Clicked="AddItem_Clicked" />
+        <ToolbarItem Text="登録" Clicked="AddItem_Clicked"/>
     </ContentPage.ToolbarItems>
 
-    <StackLayout>
+    <StackLayout BackgroundColor="#ede4e1">
+        <StackLayout Orientation="Horizontal"
+                     x:Name="header"
+                     HeightRequest="50"
+                     VerticalOptions="CenterAndExpand"
+                     HorizontalOptions="FillAndExpand">
+            <ImageButton Source="back.png"
+                         WidthRequest="20"
+                         Clicked="Chenge_Month_Remove"
+                         HorizontalOptions="FillAndExpand"
+                         BackgroundColor="#ede4e1"
+                         VerticalOptions="CenterAndExpand"/>
+            <Label FontSize="Medium"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="CenterAndExpand"
+                    x:Name="today"
+                    Text="{Binding Now, StringFormat='{0:yyyy}年{0:MM}月'}"/>
+            <ImageButton Source="next.png"
+                         WidthRequest="20"
+                         Clicked="Chenge_Month_Add"
+                         BackgroundColor="#ede4e1"
+                         HorizontalOptions="FillAndExpand"
+                         VerticalOptions="CenterAndExpand"/>
+        </StackLayout>
+
+
         <ListView x:Name="ItemsListView"
                 ItemsSource="{Binding Items}"
                 VerticalOptions="EndAndExpand"
                 HasUnevenRows="true"
                 RefreshCommand="{Binding LoadItemsCommand}"
                 IsPullToRefreshEnabled="true"
+                SeparatorVisibility="Default"
+                SeparatorColor="#545b62"
                 IsRefreshing="{Binding IsBusy, Mode=OneWay}"
                 CachingStrategy="RecycleElement"
-                ItemSelected="OnItemSelected" BackgroundColor="#f0f0f0">
+                ItemSelected="OnItemSelected"
+                BackgroundColor="#ffffff">
 
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <StackLayout Padding="30,10,10,10">
-                            <Label Text="{Binding Payment_Date, StringFormat='{0:yyyy}年{0:MM}月{0:dd}日'}" 
-                                LineBreakMode="NoWrap" 
-                                Style="{DynamicResource ListItemTextStyle}" 
-                                FontSize="16" Padding="10,0,0,0" />
-                            <Label Text="{Binding Money, StringFormat='{0:#,0} 円'}" 
-                                LineBreakMode="NoWrap"
-                                Style="{DynamicResource ListItemDetailTextStyle}"
-                                FontSize="16"
-                                Padding="20,0,0,0"
-                                FontAttributes="Bold"/>
+                        <StackLayout Padding="45,10,10,10" Orientation="Horizontal">
+                            <Image Source="{Binding Icon_Name}" WidthRequest="30" HeightRequest="30" />
+                            <StackLayout Orientation="Vertical">
+                                <Label Text="{Binding Payment_Date, StringFormat='{0:yyyy}年{0:MM}月{0:dd}日'}" 
+                                    LineBreakMode="NoWrap" 
+                                    Style="{DynamicResource ListItemTextStyle}" 
+                                    FontSize="16" Padding="10,0,0,0" />
+                                <Label Text="{Binding Money, StringFormat='{0:#,0} 円'}" 
+                                    LineBreakMode="NoWrap"
+                                    Style="{DynamicResource ListItemDetailTextStyle}"
+                                    FontSize="16"
+                                    Padding="20,0,0,0"
+                                    FontAttributes="Bold"/>
+                            </StackLayout>
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>

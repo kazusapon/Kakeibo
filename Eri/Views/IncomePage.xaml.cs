@@ -15,6 +15,7 @@ namespace Eri.Views
 {
     // Learn more about making custom code visible in the Xamarin.Forms previewer
     // by visiting https://aka.ms/xamarinforms-previewer
+
     [DesignTimeVisible(false)]
     public partial class IncomePage : ContentPage
     {
@@ -29,7 +30,7 @@ namespace Eri.Views
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
         {
             //var item = args.SelectedItem as Item;
-            var item = args.SelectedItem as Tra_Income;
+            var item = args.SelectedItem as IncomeDetail;
             if (item == null)
                 return;
 
@@ -46,6 +47,18 @@ namespace Eri.Views
             var nav = new NavigationPage(new NewItemPage());
             await Navigation.PushModalAsync(nav);
 
+        }
+
+        void Chenge_Month_Add(object sender, EventArgs e)
+        {
+            BindingContext = viewModel = new ItemsViewModel(1);
+            OnAppearing();
+        }
+
+        void Chenge_Month_Remove(object sender, EventArgs e)
+        {
+            BindingContext = viewModel = new ItemsViewModel(-1);
+            OnAppearing();
         }
 
         protected override void OnAppearing()
