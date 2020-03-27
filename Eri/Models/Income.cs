@@ -39,6 +39,11 @@ namespace Eri.Models
 
         public async void Update_Item(Tra_Income income)
         {
+            //更新金額がゼロ円の場合は、そのままリターン
+            if (income.Money == 0)
+            {
+                return;
+            }
             this._context.Database.EnsureCreated();
             var _result = Income_Fetch(income.Id);
             _result.User_Id = 1;
@@ -73,6 +78,7 @@ namespace Eri.Models
                      on tra_income.Income_Id equals mst_income.Id
                      where tra_income.Payment_Date >= start_day
                      where tra_income.Payment_Date <= end_day
+                     where tra_income.Money > 0
                      orderby tra_income.Payment_Date descending
                      orderby tra_income.Id descending
                      select new IncomeDetail

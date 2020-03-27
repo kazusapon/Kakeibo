@@ -3,7 +3,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Eri.Services;
 using Eri.Views;
-
+using Eri.Models;
 namespace Eri
 {
     public partial class App : Application
@@ -12,6 +12,10 @@ namespace Eri
         public App()
         {
             InitializeComponent();
+
+            //Seedデータ
+            SeedData seed = new SeedData();
+            seed.InsertSeedData();
 
             DependencyService.Register<MockDataStore>();
             MainPage = new MainPage();

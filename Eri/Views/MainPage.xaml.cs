@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Eri.Models;
 
 namespace Eri.Views
 {
@@ -13,6 +14,7 @@ namespace Eri.Views
         public MainPage()
         {
             InitializeComponent();
+
         }
     }
 }

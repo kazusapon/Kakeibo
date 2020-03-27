@@ -54,20 +54,27 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <StackLayout Padding="45,10,10,10" Orientation="Horizontal">
+                        <StackLayout Padding="50,10,10,10" Orientation="Horizontal">
                             <Image Source="{Binding Icon_Name}" WidthRequest="30" HeightRequest="30" />
+                            
                             <StackLayout Orientation="Vertical">
                                 <Label Text="{Binding Payment_Date, StringFormat='{0:yyyy}年{0:MM}月{0:dd}日'}" 
-                                    LineBreakMode="NoWrap" 
-                                    Style="{DynamicResource ListItemTextStyle}" 
-                                    FontSize="16" Padding="10,0,0,0" />
-                                <Label Text="{Binding Money, StringFormat='{0:#,0} 円'}" 
-                                    LineBreakMode="NoWrap"
-                                    Style="{DynamicResource ListItemDetailTextStyle}"
-                                    FontSize="16"
-                                    Padding="20,0,0,0"
-                                    FontAttributes="Bold"/>
+                                        LineBreakMode="NoWrap" 
+                                        Style="{DynamicResource ListItemTextStyle}" 
+                                        FontSize="16" Padding="30,0,0,0" />
+                                <Label Text="{Binding Income_Name}"
+                                       FontSize="16"
+                                       Margin="30,0,0,0"
+                                       FontAttributes="Bold" 
+                                       VerticalOptions="CenterAndExpand"/>
                             </StackLayout>
+                            <Label Text="{Binding Money, StringFormat='{0:#,0} 円'}" 
+                                        LineBreakMode="NoWrap"
+                                        Style="{DynamicResource ListItemDetailTextStyle}"
+                                        FontSize="16"
+                                        Padding="18,0,0,0"
+                                        FontAttributes="Bold" 
+                                        VerticalOptions="EndAndExpand"/>
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>

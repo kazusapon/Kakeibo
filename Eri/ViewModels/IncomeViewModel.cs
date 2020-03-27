@@ -19,7 +19,7 @@ namespace Eri.ViewModels
         //public ObservableCollection<Tra_Income> Items { get; set; }
         public ObservableCollection<IncomeDetail> Items { get; set; }
         public Command LoadItemsCommand { get; set; }
-        public ImageSource ListImage { get; set; }
+        //public ImageSource ListImage { get; set; }
 
         public ItemsViewModel(int add_month=0)
         {
@@ -33,7 +33,7 @@ namespace Eri.ViewModels
             DateTime target_date = Now.AddMonths(add_month);
             Now = Now.AddMonths(add_month);
 
-            ListImage = ImageSource.FromResource("Eri.Imeges.pig.png");
+            //ListImage = ImageSource.FromResource("Eri.Imeges.pig.png");
             Items = new ObservableCollection<IncomeDetail>();
             
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand(target_date));

@@ -22,6 +22,9 @@ namespace Eri.Models
             //optionsBuilder.UseSqlite($"Data Source=mydata.db");
             optionsBuilder.UseSqlite($"Filename={dbPath}");
             SQLitePCL.Batteries_V2.Init();
+
+
+
         }
         public DbSet<Mst_Spend> Mst_Spend { get; set; }
         public DbSet<Mst_Income> Mst_Income { get; set; }

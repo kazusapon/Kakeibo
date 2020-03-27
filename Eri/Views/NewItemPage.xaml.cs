@@ -30,12 +30,12 @@ namespace Eri.Views
             InitializeComponent();
             ItemsViewModel item = new ItemsViewModel();
             PickerList = item.Get_Picker_List().ToList();
+            this.MyPicker.Title = "選択してください";
             if (viewdata == null)
             {
                 Item = new Tra_Income();
                 Item.Payment_Date = DateTime.Today;
-                this.MyPicker.Title = "選択してください";
-                Selected = -1;
+                Selected = 0;
                 this.button.Clicked += Save_Clicked;
             }
             else
@@ -50,6 +50,12 @@ namespace Eri.Views
         public void Update_Clicked(object sender, EventArgs s)
         {
             BindingContext = this;
+            //ゼロ円の場合はインサートしない
+            if (Item.Money == 0)
+            {
+                MoneyCheck(Item.Money);
+                return;
+            }
             using (var db = new MyContext())
             {
                 Income income = new Income(db);
@@ -67,8 +73,15 @@ namespace Eri.Views
             
             using (var db = new MyContext())
             {
-                InsertMaster();
                 var picker_item = MyPicker.SelectedItem as Mst_Income;
+                
+                //ゼロ円の場合はインサートしない
+                if (Item.Money == 0)
+                {
+                    MoneyCheck(Item.Money);
+                    return;
+                }
+
                 db.Database.EnsureCreated();
                 db.Tra_Income.Add(new Tra_Income
                 {
@@ -86,22 +99,15 @@ namespace Eri.Views
             //await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
         }
 
-        private void InsertMaster()
-        {
-            using (var db = new MyContext())
-            {
-                db.Mst_Income.Add(new Mst_Income
-                {
-                    Income_Name = "Test",
-                    Icon_Name = "salary.png"
-                });
-                db.SaveChanges();
-            };
-        }
-
         async void Cancel_Clicked(object sender, EventArgs e)
         {
             await Navigation.PopModalAsync();
+        }
+
+        private void MoneyCheck(int money)
+        {
+
+            DisplayAlert("Error", "ゼロ円の場合は、保存されません。", "OK");
         }
     }
 }
