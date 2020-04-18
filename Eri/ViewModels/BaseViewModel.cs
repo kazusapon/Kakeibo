@@ -35,6 +35,13 @@ namespace Eri.ViewModels
             set { now= value; }
         }
 
+        static DateTime spend_now;
+        public DateTime Now_Spend
+        {
+            get { return spend_now; }
+            set { spend_now = value; }
+        }
+
         protected bool SetProperty<T>(ref T backingStore, T value,
             [CallerMemberName]string propertyName = "",
             Action onChanged = null)

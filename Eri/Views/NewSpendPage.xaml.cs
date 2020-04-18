@@ -15,33 +15,33 @@ namespace Eri.Views
     // Learn more about making custom code visible in the Xamarin.Forms previewer
     // by visiting https://aka.ms/xamarinforms-previewer
     [DesignTimeVisible(false)]
-    public partial class NewItemPage : ContentPage
+    public partial class NewSpendPage : ContentPage
     {
-        public Tra_Income Item { get; set; }
-        public IList<Mst_Income> PickerList { get; set; }
+        public Tra_Spending Spends { get; set; }
+        public IList<Mst_Spend> PickerListSpend { get; set; }
         public int Selected { get; set; }
 
         //public delegate void UpdateOrInsert(object sender, EventArgs s);
         //public List<string> PickerStrings { get; set; }
         //public string Methods { get; set; }
 
-        public NewItemPage(Tra_Income viewdata=null)
+        public NewSpendPage(Tra_Spending viewdata=null)
         {
             InitializeComponent();
-            ItemsViewModel item = new ItemsViewModel();
-            PickerList = item.Get_Picker_List().ToList();
+            SpendViewModel spend = new SpendViewModel();
+            PickerListSpend = spend.Get_Picker_List().ToList();
             this.MyPicker.Title = "選択してください";
             if (viewdata == null)
             {
-                Item = new Tra_Income();
-                Item.Payment_Date = DateTime.Today;
+                Spends = new Tra_Spending();
+                Spends.Purchase_Date = DateTime.Today;
                 Selected = 0;
                 this.button.Clicked += Save_Clicked;
             }
             else
             {
-                Item = viewdata;
-                Selected = viewdata.Income_Id - 1;
+                Spends = viewdata;
+                Selected = viewdata.Spend_Id - 1;
                 this.button.Clicked += Update_Clicked;
             }
             BindingContext = this;
@@ -51,20 +51,20 @@ namespace Eri.Views
         {
             BindingContext = this;
             //ゼロ円の場合はインサートしない
-            if (Item.Money == 0)
+            if (Spends.Money == 0)
             {
-                MoneyCheck(Item.Money);
+                MoneyCheck(Spends.Money);
                 return;
             }
             
             //選択されたPickerを変数に代入する
-            var picker_item = MyPicker.SelectedItem as Mst_Income;
+            var picker_item = MyPicker.SelectedItem as Mst_Spend;
 
             using (var db = new MyContext())
             {
-                Item.Income_Id = picker_item.Id;
-                Income income = new Income(db);
-                income.Update_Item(Item);
+                Spends.Spend_Id = picker_item.Id;
+                Spend spend = new Spend(db);
+                spend.Update_Spend(Spends);
             }
             Application.Current.MainPage = new MainPage();
         }
@@ -78,23 +78,23 @@ namespace Eri.Views
             
             using (var db = new MyContext())
             {
-                var picker_item = MyPicker.SelectedItem as Mst_Income;
+                var picker_item = MyPicker.SelectedItem as Mst_Spend;
                 
                 //ゼロ円の場合はインサートしない
-                if (Item.Money == 0)
+                if (Spends.Money == 0)
                 {
-                    MoneyCheck(Item.Money);
+                    MoneyCheck(Spends.Money);
                     return;
                 }
 
                 db.Database.EnsureCreated();
-                db.Tra_Income.Add(new Tra_Income
+                db.Tra_Spending.Add(new Tra_Spending
                 {
                     User_Id = 1,
-                    Income_Id = picker_item.Id,
-                    Payment_Date = Item.Payment_Date.Date,
-                    Money = Item.Money,
-                    Description = Item.Description,
+                    Spend_Id = picker_item.Id,
+                    Purchase_Date = Spends.Purchase_Date.Date,
+                    Money = Spends.Money,
+                    Description = Spends.Description,
                     Linked_Flag = false
                 });
                 await db.SaveChangesAsync();

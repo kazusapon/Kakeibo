@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Eri.Views.SpendPage"
+             Title="{Binding Title}"
+             x:Name="BrowseItemsPage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="登録" Clicked="AddItem_Clicked"/>
+    </ContentPage.ToolbarItems>
+
+    <StackLayout BackgroundColor="#ede4e1">
+        <StackLayout Orientation="Horizontal"
+                     x:Name="header"
+                     HeightRequest="50"
+                     VerticalOptions="CenterAndExpand"
+                     HorizontalOptions="FillAndExpand">
+            <ImageButton Source="back.png"
+                         WidthRequest="20"
+                         Clicked="Chenge_Month_Remove"
+                         HorizontalOptions="FillAndExpand"
+                         BackgroundColor="#ede4e1"
+                         VerticalOptions="CenterAndExpand"/>
+            <Label FontSize="Medium"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="CenterAndExpand"
+                    x:Name="today"
+                    Text="{Binding Now_Spend, StringFormat='{0:yyyy}年{0:MM}月'}"/>
+            <ImageButton Source="next.png"
+                         WidthRequest="20"
+                         Clicked="Chenge_Month_Add"
+                         BackgroundColor="#ede4e1"
+                         HorizontalOptions="FillAndExpand"
+                         VerticalOptions="CenterAndExpand"/>
+        </StackLayout>
+
+
+        <ListView x:Name="SpendListView"
+                ItemsSource="{Binding Spends}"
+                VerticalOptions="EndAndExpand"
+                HasUnevenRows="true"
+                RefreshCommand="{Binding LoadItemsCommand}"
+                IsPullToRefreshEnabled="true"
+                SeparatorVisibility="Default"
+                SeparatorColor="#545b62"
+                IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                CachingStrategy="RecycleElement"
+                ItemSelected="OnItemSelected"
+                BackgroundColor="#ffffff">
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Padding="50,10,10,10" Orientation="Horizontal">
+                            <Image Source="{Binding Icon_Name}" WidthRequest="30" HeightRequest="30" />
+                            
+                            <StackLayout Orientation="Vertical">
+                                <Label Text="{Binding Purchase_Date, StringFormat='{0:yyyy}年{0:MM}月{0:dd}日'}" 
+                                        LineBreakMode="NoWrap" 
+                                        Style="{DynamicResource ListItemTextStyle}" 
+                                        FontSize="16" Padding="30,0,0,0" />
+                                <Label Text="{Binding Spend_Name}"
+                                       FontSize="16"
+                                       Margin="30,0,0,0"
+                                       FontAttributes="Bold" 
+                                       VerticalOptions="CenterAndExpand"/>
+                            </StackLayout>
+                            <Label Text="{Binding Money, StringFormat='{0:#,0} 円'}" 
+                                        LineBreakMode="NoWrap"
+                                        Style="{DynamicResource ListItemDetailTextStyle}"
+                                        FontSize="16"
+                                        Padding="18,0,0,0"
+                                        FontAttributes="Bold" 
+                                        VerticalOptions="EndAndExpand"/>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+
+</ContentPage>
