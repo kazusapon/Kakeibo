@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             Title="サマリ"
+             x:Class="Eri.Views.Summary">
+  <ContentPage.Content>
+        <StackLayout   WidthRequest="330" HorizontalOptions="CenterAndExpand" Margin="0,10,0,0">
+
+            
+            <!--　全体の達成度　-->
+            <Label Text="達成度（全体）" FontSize="Medium" />
+            <StackLayout Orientation="Horizontal" HeightRequest="30" HorizontalOptions="FillAndExpand">
+                <Label Text="20000" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" />
+                <Label Text="20000" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" FontAttributes="Bold"/>
+                <Label Text="40000" HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand" />
+            </StackLayout>
+
+            <ProgressBar ProgressColor="#c72634" Progress="0.5" HorizontalOptions="FillAndExpand" x:Name="progress_total" />
+            
+            
+            <!--　食費の達成度　-->
+            <Label Text="達成度（食費）" FontSize="Medium" Margin="0,30,0,0"/>
+            <StackLayout Orientation="Horizontal" HeightRequest="30" HorizontalOptions="FillAndExpand">
+                <Label Text="10000" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" />
+                <Label Text="30000" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" FontAttributes="Bold" />
+                <Label Text="40000" HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand" />
+            </StackLayout>
+
+            <ProgressBar ProgressColor="#c72634" Progress="0.25" HorizontalOptions="FillAndExpand" x:Name="progress_shokuhi" />
+
+
+            <!--　支出の内訳（円グラフ）　-->
+            <!--　支出の内訳（テーブル）固定費も入れること　-->
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
