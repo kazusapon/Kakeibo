@@ -39,6 +39,7 @@ namespace Eri.Models
     {
         [Key]
         public int Id { get; set; }
+        public int Spend_Id { get; set; }
         public int Money { get; set; }
         public bool Del_Flag { get; set; }
         public DateTime Start_Date { get; set; }

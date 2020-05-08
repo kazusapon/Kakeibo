@@ -77,7 +77,7 @@ namespace Eri.Models
                      join mst_income in this._context.Mst_Income
                      on tra_income.Income_Id equals mst_income.Id
                      where tra_income.Payment_Date >= start_day
-                     where tra_income.Payment_Date <= end_day
+                     where tra_income.Payment_Date < end_day
                      where tra_income.Money > 0
                      orderby tra_income.Payment_Date descending
                      orderby tra_income.Id descending
