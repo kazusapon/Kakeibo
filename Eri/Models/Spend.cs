@@ -19,7 +19,7 @@ namespace Eri.Models
         public IList<Mst_Spend> Get_MasterSpend()
         {
             this._context.Database.EnsureCreated();
-            IList<Mst_Spend> _result = this._context.Mst_Spend.ToList();
+            IList<Mst_Spend> _result = this._context.Mst_Spend.OrderBy(x => x.Id).ToList();
             return _result;
         }
 

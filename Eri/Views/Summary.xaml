@@ -3,38 +3,74 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:oxy="clr-namespace:OxyPlot.Xamarin.Forms;assembly=OxyPlot.Xamarin.Forms"
              mc:Ignorable="d"
              Title="サマリ"
              x:Class="Eri.Views.Summary">
-  <ContentPage.Content>
-        <StackLayout   WidthRequest="330" HorizontalOptions="CenterAndExpand" Margin="0,10,0,0">
 
-            
-            <!--　全体の達成度　-->
-            <Label Text="達成度（全体）" FontSize="Medium" />
-            <StackLayout Orientation="Horizontal" HeightRequest="30" HorizontalOptions="FillAndExpand">
-                <Label Text="20000" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" />
-                <Label Text="20000" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" FontAttributes="Bold"/>
-                <Label Text="40000" HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand" />
+
+    <ContentPage.Content>
+
+
+        <StackLayout>
+            <StackLayout Orientation="Horizontal"
+                     x:Name="header"
+                     HeightRequest="50"
+                     BackgroundColor="#ede4e1"
+                     HorizontalOptions="FillAndExpand">
+                <ImageButton Source="back.png"
+                         WidthRequest="20"
+                         Clicked="Chenge_Month_Remove"
+                         HorizontalOptions="FillAndExpand"
+                         BackgroundColor="#ede4e1"
+                         VerticalOptions="CenterAndExpand"/>
+                <Label FontSize="Medium"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="CenterAndExpand"
+                    x:Name="today"
+                    Text="{Binding Now_Summary, StringFormat='{0:yyyy}年{0:MM}月'}"/>
+                <ImageButton Source="next.png"
+                         WidthRequest="20"
+                         Clicked="Chenge_Month_Add"
+                         BackgroundColor="#ede4e1"
+                         HorizontalOptions="FillAndExpand"
+                         VerticalOptions="CenterAndExpand"/>
             </StackLayout>
 
-            <ProgressBar ProgressColor="#c72634" Progress="0.5" HorizontalOptions="FillAndExpand" x:Name="progress_total" />
+            <StackLayout WidthRequest="330" HorizontalOptions="CenterAndExpand" Margin="0,0,0,0">
+                    <!--　全体の達成度　-->
+                    <Label Text="収支割合" FontSize="Medium" />
+                    <StackLayout Orientation="Horizontal" HeightRequest="30" HorizontalOptions="FillAndExpand">
+                        <Label Text="{Binding TotalSpend}" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" />
+                        <Label Text="{Binding Diff_Total}" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" FontAttributes="Bold"/>
+                        <Label Text="{Binding TotalIncome}" HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand" />
+                    </StackLayout>
+
+                    <ProgressBar ProgressColor="#c72634" HorizontalOptions="FillAndExpand" x:Name="progress_total" />
             
             
-            <!--　食費の達成度　-->
-            <Label Text="達成度（食費）" FontSize="Medium" Margin="0,30,0,0"/>
-            <StackLayout Orientation="Horizontal" HeightRequest="30" HorizontalOptions="FillAndExpand">
-                <Label Text="10000" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" />
-                <Label Text="30000" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" FontAttributes="Bold" />
-                <Label Text="40000" HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand" />
-            </StackLayout>
+                    <!--　食費の達成度　-->
+                    <Label Text="達成度（食費）" FontSize="Medium" Margin="0,30,0,0"/>
+                    <StackLayout Orientation="Horizontal" HeightRequest="30" HorizontalOptions="FillAndExpand">
+                        <Label Text="{Binding Shokuhi}" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" />
+                        <Label Text="{Binding Diff_Shokuhi}" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" FontAttributes="Bold" />
+                        <Label Text="{Binding Available}" HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand" />
+                    </StackLayout>
 
-            <ProgressBar ProgressColor="#c72634" Progress="0.25" HorizontalOptions="FillAndExpand" x:Name="progress_shokuhi" />
+                    <ProgressBar ProgressColor="#c72634" HorizontalOptions="FillAndExpand" x:Name="progress_shokuhi" />
 
-
+                </StackLayout>
+            
             <!--　支出の内訳（円グラフ）　-->
-            <!--　支出の内訳（テーブル）固定費も入れること　-->
+            <Label Text="支出グラフ" FontSize="Medium" Margin="30,30,0,0"/>
 
+            <!--　支出の内訳（テーブル）固定費も入れること　-->
+            <oxy:PlotView Model="{Binding Pie_chart}"
+                                  VerticalOptions="FillAndExpand"
+                                  HorizontalOptions="FillAndExpand"
+                                  WidthRequest="300"
+                                  x:Name="PlotPie" >
+            </oxy:PlotView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
