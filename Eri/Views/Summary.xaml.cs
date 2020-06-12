@@ -49,7 +49,7 @@ namespace Eri.Views
         private void SetBarLong(SummaryViewModel viewmodel)
         {
             this.progress_total.Progress = CalcDecimal(viewmodel.TotalIncome, viewmodel.TotalSpend);
-            this.progress_shokuhi.Progress = CalcDecimal(viewmodel.Available, viewmodel.Shokuhi);
+            //this.progress_shokuhi.Progress = CalcDecimal(viewmodel.Available, viewmodel.Shokuhi);
         }
 
         //プログレスバーに表示する少数値を求める

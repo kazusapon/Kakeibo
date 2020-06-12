@@ -11,9 +11,10 @@
 
     <ContentPage.Content>
 
+        <ScrollView Orientation="Vertical">
+            <StackLayout  BackgroundColor="White">
 
-        <StackLayout>
-            <StackLayout Orientation="Horizontal"
+                <StackLayout Orientation="Horizontal"
                      x:Name="header"
                      HeightRequest="50"
                      BackgroundColor="#ede4e1"
@@ -35,9 +36,9 @@
                          BackgroundColor="#ede4e1"
                          HorizontalOptions="FillAndExpand"
                          VerticalOptions="CenterAndExpand"/>
-            </StackLayout>
-
-            <StackLayout WidthRequest="330" HorizontalOptions="CenterAndExpand" Margin="0,0,0,0">
+                </StackLayout>
+                
+                <StackLayout WidthRequest="330" HorizontalOptions="CenterAndExpand" Margin="0,0,0,0" >
                     <!--　全体の達成度　-->
                     <Label Text="収支割合" FontSize="Medium" />
                     <StackLayout Orientation="Horizontal" HeightRequest="30" HorizontalOptions="FillAndExpand">
@@ -50,6 +51,7 @@
             
             
                     <!--　食費の達成度　-->
+                    <!--
                     <Label Text="達成度（食費）" FontSize="Medium" Margin="0,30,0,0"/>
                     <StackLayout Orientation="Horizontal" HeightRequest="30" HorizontalOptions="FillAndExpand">
                         <Label Text="{Binding Shokuhi}" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" />
@@ -57,20 +59,27 @@
                         <Label Text="{Binding Available}" HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand" />
                     </StackLayout>
 
-                    <ProgressBar ProgressColor="#c72634" HorizontalOptions="FillAndExpand" x:Name="progress_shokuhi" />
+                    <ProgressBar ProgressColor="#c72634" HorizontalOptions="FillAndExpand" x:Name="progress_shokuhi" />-->
 
                 </StackLayout>
             
-            <!--　支出の内訳（円グラフ）　-->
-            <Label Text="支出グラフ" FontSize="Medium" Margin="30,30,0,0"/>
-
-            <!--　支出の内訳（テーブル）固定費も入れること　-->
-            <oxy:PlotView Model="{Binding Pie_chart}"
-                                  VerticalOptions="FillAndExpand"
-                                  HorizontalOptions="FillAndExpand"
-                                  WidthRequest="300"
-                                  x:Name="PlotPie" >
-            </oxy:PlotView>
-        </StackLayout>
+                <!--　支出の内訳（円グラフ）　-->
+                <Label Text="支出グラフ" FontSize="Medium" Margin="30,30,0,0"/>
+                <oxy:PlotView Model="{Binding Pie_chart}"
+                                      VerticalOptions="FillAndExpand"
+                                      HorizontalOptions="FillAndExpand"
+                                      WidthRequest="300"
+                                      HeightRequest="300"
+                                      x:Name="PlotPie" >
+                </oxy:PlotView>
+                <oxy:PlotView Model="{Binding Line_chart}"
+                                      VerticalOptions="FillAndExpand"
+                                      HorizontalOptions="FillAndExpand"
+                                      WidthRequest="250"
+                                      HeightRequest="250"
+                                      x:Name="PlotLine" >
+                </oxy:PlotView>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

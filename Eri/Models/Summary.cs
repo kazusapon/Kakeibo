@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Eri.Models
 {
@@ -20,6 +21,39 @@ namespace Eri.Models
         {
             this._context = context;
         }
+
+
+        //支出の折れ線グラフのライン
+        public List<SpendLineModel> GetSpendLine(DateTime date)
+        {
+            var _result = this._context.Tra_Spending.Where(x => x.Purchase_Date.Year == date.Year)
+                                                    .Where(x => x.Money > 0)
+                                                    .GroupBy(x => new { x.Purchase_Date.Month })
+                                                    .Select(x => new SpendLineModel
+                                                    {
+                                                        Mon = x.Key.Month,
+                                                        Money = x.Sum(x => x.Money)
+                                                    }).ToList();
+            return FillSpendLine(_result);
+        }
+
+        //01月～12月になるように追加する。
+        private List<SpendLineModel> FillSpendLine(List<SpendLineModel> result)
+        {
+            
+            for (int i = 1; i <= 12; i++)
+            {
+                if (!result.Where(x => x.Mon == i).Any())
+                {
+                    SpendLineModel spend = new SpendLineModel();
+                    spend.Mon = i;
+                    spend.Money = 0;
+                    result.Add(spend);
+                }
+            }
+            return result.OrderBy(x => x.Mon).ToList();
+        }
+
 
         //支出円グラフ用モデル
         public List<SpendPieModel> GetSpendPie(DateTime date)
@@ -45,6 +79,17 @@ namespace Eri.Models
                             .ToList(); //固定値取得メンバを呼び出し、末尾に結合する（金額の降順ソートする）
             return result;
 
+        }
+
+        public int TotalSpend(DateTime date)
+        {
+            SetDateTime(date);
+            int result = 0;
+
+            result =  this._context.Tra_Spending.Where(x => x.Purchase_Date >= start_day)
+                                               .Where(x => x.Purchase_Date < end_day)
+                                               .Sum(x => x.Money);
+            return result;
         }
 
         //固定費を返すメンバ
@@ -135,6 +180,7 @@ namespace Eri.Models
         }
 
 
+
         private void SetDateTime(DateTime date)
         {
             int yyyy = date.Year;
@@ -149,5 +195,11 @@ namespace Eri.Models
     {
         public string Label { get; set; }
         public int Value { get; set; }
+    }
+
+    public class SpendLineModel
+    {
+        public int Mon { get; set; }
+        public int Money { get; set; }
     }
 }
