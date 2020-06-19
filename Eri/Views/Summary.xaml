@@ -76,7 +76,8 @@
                                       VerticalOptions="FillAndExpand"
                                       HorizontalOptions="FillAndExpand"
                                       WidthRequest="250"
-                                      HeightRequest="250"
+                                      HeightRequest="380"
+                                      Margin="0,40,0,0"
                                       x:Name="PlotLine" >
                 </oxy:PlotView>
             </StackLayout>

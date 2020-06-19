@@ -13,6 +13,7 @@ using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
 
+
 using Eri.Models;
 using Eri.Views;
 
@@ -22,6 +23,7 @@ namespace Eri.ViewModels
     {
         //円グラフのオブジェクト
         public PlotModel Pie_chart { get; private set; } = new PlotModel() { PlotMargins = new OxyThickness(0,25,0,0) };
+
         //折れ線グラフのオブジェクト
         public PlotModel Line_chart { get; private set; } = new PlotModel() {
             LegendPlacement = LegendPlacement.Outside,
@@ -30,14 +32,18 @@ namespace Eri.ViewModels
             LegendTextColor = OxyColors.Black,
             LegendSymbolPlacement = LegendSymbolPlacement.Left,
             LegendPosition = LegendPosition.BottomCenter,
+            PlotType = PlotType.XY,
+            LegendOrientation = LegendOrientation.Horizontal,
             PlotAreaBorderColor = OxyColors.Transparent
         };
         //横軸
         public LinearAxis AxisX { get; private set; }
         //縦軸
         public LinearAxis AxisY { get; private set; }
-        //折れ線グラフの線のオブジェクト
+        //折れ線グラフの線(支出)のオブジェクト
         private List<DataPoint> spend_line = new List<DataPoint>();
+        //折れ線グラフの線(収入)のオブジェクト
+        private List<DataPoint> income_line = new List<DataPoint>();
         //円グラフの各弧を格納するオブジェクト
         private List<PieSlice> slice_data = new List<PieSlice>();
 
@@ -59,13 +65,27 @@ namespace Eri.ViewModels
 
         };
 
-        //折れ線グラフのプロパティ設定
+        //折れ線グラフのプロパティ設定(支出)
         private LineSeries line_series = new LineSeries()
         {
-            Title = "収入",
+            Title = "支出",
+            LineJoin = LineJoin.Round,
+            StrokeThickness = 5,
             DataFieldX = nameof(SpendLineModel.Mon),
             DataFieldY = nameof(SpendLineModel.Money)
-    };
+        };
+
+        //折れ線グラフのプロパティ設定（収入）
+        private LineSeries income_line_series = new LineSeries()
+        {
+            Title = "収入",
+            Color = OxyColors.Blue,
+            LineJoin = LineJoin.Round,
+            StrokeThickness = 5,
+            DataFieldX = nameof(SpendLineModel.Mon),
+            DataFieldY = nameof(SpendLineModel.Money)
+
+        };
 
 
 
@@ -92,8 +112,10 @@ namespace Eri.ViewModels
             //折れ線グラフの場合
             Line_Init();
             line_series.Points.AddRange(spend_line);
+            income_line_series.Points.AddRange(income_line);
             Line_chart.Series.Add(line_series);
-            
+            Line_chart.Series.Add(income_line_series);
+
             Chart_Update(); //グラフの更新
             SetBarData();
         }
@@ -118,6 +140,7 @@ namespace Eri.ViewModels
                 StringFormat = "MM月" //月のみを表示
             };
             spend_line.AddRange(CreateSpendLine().Select(x => new DataPoint(DateTimeAxis.ToDouble(x.Mon), x.Money)));
+            income_line.AddRange(CreateIncomeLine().Select(x => new DataPoint(DateTimeAxis.ToDouble(x.Mon), x.Money)));
         }
 
         //グラフのアップデート
@@ -152,12 +175,24 @@ namespace Eri.ViewModels
                 return piedata;
             }
         }
+
+
         private List<SpendLineModel> CreateSpendLine()
         {
             using (var db = new MyContext())
             {
                 SummaryModel summary = new SummaryModel(db);
                 var spend = summary.GetSpendLine(Now_Summary);
+                return spend;
+            }
+        }
+
+        private List<SpendLineModel> CreateIncomeLine()
+        {
+            using (var db = new MyContext())
+            {
+                SummaryModel summary = new SummaryModel(db);
+                var spend = summary.GetIncomeLine(Now_Summary);
                 return spend;
             }
         }

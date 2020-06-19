@@ -23,6 +23,20 @@ namespace Eri.Models
         }
 
 
+        //収入の折れ線グラフのライン
+        public List<SpendLineModel> GetIncomeLine(DateTime date)
+        {
+            var _result = this._context.Tra_Income.Where(x => x.Payment_Date.Year == date.Year)
+                                                    .Where(x => x.Money > 0)
+                                                    .GroupBy(x => new { x.Payment_Date.Month })
+                                                    .Select(x => new SpendLineModel
+                                                    {
+                                                        Mon = x.Key.Month,
+                                                        Money = x.Sum(x => x.Money)
+                                                    }).ToList();
+            return FillSpendLine(_result);
+        }
+
         //支出の折れ線グラフのライン
         public List<SpendLineModel> GetSpendLine(DateTime date)
         {
