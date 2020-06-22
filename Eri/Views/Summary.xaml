@@ -38,13 +38,13 @@
                          VerticalOptions="CenterAndExpand"/>
                 </StackLayout>
                 
-                <StackLayout WidthRequest="330" HorizontalOptions="CenterAndExpand" Margin="0,0,0,0" >
+                <StackLayout WidthRequest="350" HorizontalOptions="CenterAndExpand" Margin="0,0,0,0" >
                     <!--　全体の達成度　-->
                     <Label Text="収支割合" FontSize="Medium" />
                     <StackLayout Orientation="Horizontal" HeightRequest="30" HorizontalOptions="FillAndExpand">
-                        <Label Text="{Binding TotalSpend}" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" />
-                        <Label Text="{Binding Diff_Total}" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" FontAttributes="Bold"/>
-                        <Label Text="{Binding TotalIncome}" HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand" />
+                        <Label Text="{Binding TotalSpend, StringFormat='{0:#,0}'}" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" />
+                        <Label Text="{Binding Diff_Total, StringFormat='{0:#,0}'}" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" FontAttributes="Bold"/>
+                        <Label Text="{Binding TotalIncome, StringFormat='{0:#,0}'}" HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand" />
                     </StackLayout>
 
                     <ProgressBar ProgressColor="#c72634" HorizontalOptions="FillAndExpand" x:Name="progress_total" />
