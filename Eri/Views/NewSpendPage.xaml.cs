@@ -88,6 +88,9 @@ namespace Eri.Views
                 }
 
                 db.Database.EnsureCreated();
+
+                DateTime now = DateTime.Now;
+
                 db.Tra_Spending.Add(new Tra_Spending
                 {
                     User_Id = 1,
@@ -95,7 +98,10 @@ namespace Eri.Views
                     Purchase_Date = Spends.Purchase_Date.Date,
                     Money = Spends.Money,
                     Description = Spends.Description,
-                    Linked_Flag = false
+                    Linked_Flag = false,
+                    Del_Flag = false,
+                    Created_At = now,
+                    Updated_At = now
                 });
                 await db.SaveChangesAsync();
                 //await DisplayAlert("aaaa", a.ToString(), "キャンセル", "OK");

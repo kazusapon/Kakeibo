@@ -32,7 +32,8 @@ namespace Eri.Models
         public async void Delete_Income(int id)
         {
             var _result = this._context.Tra_Income.FirstOrDefault(x => x.Id == id);
-            this._context.Tra_Income.Remove(_result);
+            _result.Updated_At = DateTime.Now;
+            _result.Del_Flag = true;
             await this._context.SaveChangesAsync();
             return;
         }
@@ -51,6 +52,7 @@ namespace Eri.Models
             _result.Payment_Date =income.Payment_Date.Date;
             _result.Money = income.Money;
             _result.Description = income.Description;
+            _result.Updated_At = DateTime.Now;
             _result.Linked_Flag = false;
             await this._context.SaveChangesAsync();
         }
@@ -79,6 +81,7 @@ namespace Eri.Models
                      where tra_income.Payment_Date >= start_day
                      where tra_income.Payment_Date < end_day
                      where tra_income.Money > 0
+                     where tra_income.Del_Flag == false
                      orderby tra_income.Payment_Date descending
                      orderby tra_income.Id descending
                      select new IncomeDetail
@@ -98,6 +101,12 @@ namespace Eri.Models
                     .AsEnumerable();*/
                 
             return result;
+        }
+
+        public async void IncomeListInsertAllAsync(List<Tra_Income> incomes)
+        {
+            await this._context.Tra_Income.AddRangeAsync(incomes);
+            await this._context.SaveChangesAsync();
         }
     }
 

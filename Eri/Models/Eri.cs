@@ -66,6 +66,9 @@ namespace Eri.Models
         public DateTime Purchase_Date { get; set; }
         public string Description { get; set; }
         public bool Linked_Flag { get; set; }
+        public DateTime Created_At { get; set; }
+        public DateTime Updated_At { get; set; }
+        public bool Del_Flag { get; set; }
     }
 
     public class Tra_Income
@@ -78,6 +81,9 @@ namespace Eri.Models
         public DateTime Payment_Date { get; set; }
         public string Description { get; set; }
         public bool Linked_Flag { get; set; }
+        public DateTime Created_At { get; set; }
+        public DateTime Updated_At { get; set; }
+        public bool Del_Flag { get; set; }
     }
 
     public class SeedData

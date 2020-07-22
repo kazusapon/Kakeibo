@@ -88,6 +88,9 @@ namespace Eri.Views
                 }
 
                 db.Database.EnsureCreated();
+
+                DateTime now = DateTime.Now;
+
                 db.Tra_Income.Add(new Tra_Income
                 {
                     User_Id = 1,
@@ -95,8 +98,11 @@ namespace Eri.Views
                     Payment_Date = Item.Payment_Date.Date,
                     Money = Item.Money,
                     Description = Item.Description,
+                    Created_At = now,
+                    Updated_At = now,
+                    Del_Flag = false,
                     Linked_Flag = false
-                });
+                }) ;
                 await db.SaveChangesAsync();
                 //await DisplayAlert("aaaa", a.ToString(), "キャンセル", "OK");
             }

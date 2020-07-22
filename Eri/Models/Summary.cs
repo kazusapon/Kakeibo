@@ -28,6 +28,7 @@ namespace Eri.Models
         {
             var _result = this._context.Tra_Income.Where(x => x.Payment_Date.Year == date.Year)
                                                     .Where(x => x.Money > 0)
+                                                    .Where(x => x.Del_Flag == false)
                                                     .GroupBy(x => new { x.Payment_Date.Month })
                                                     .Select(x => new SpendLineModel
                                                     {
@@ -42,6 +43,7 @@ namespace Eri.Models
         {
             var _result = this._context.Tra_Spending.Where(x => x.Purchase_Date.Year == date.Year)
                                                     .Where(x => x.Money > 0)
+                                                    .Where(x => x.Del_Flag == false)
                                                     .GroupBy(x => new { x.Purchase_Date.Month })
                                                     .Select(x => new SpendLineModel
                                                     {
@@ -79,6 +81,7 @@ namespace Eri.Models
                           on m_spend.Id equals t_spend.Spend_Id
                           where t_spend.Purchase_Date >= start_day
                           where t_spend.Purchase_Date < end_day
+                          where t_spend.Del_Flag == false
                           group new { m_spend, t_spend } by new { m_spend.Id, m_spend.Spend_Name } into X
                           orderby X.Key.Id
                           select new SpendPieModel
@@ -102,6 +105,7 @@ namespace Eri.Models
 
             result =  this._context.Tra_Spending.Where(x => x.Purchase_Date >= start_day)
                                                .Where(x => x.Purchase_Date < end_day)
+                                               .Where(x => x.Del_Flag == false)
                                                .Sum(x => x.Money);
             return result;
         }
@@ -128,6 +132,7 @@ namespace Eri.Models
             total = this._context.Tra_Spending
                                  .Where(x => x.Purchase_Date >= start_day)
                                  .Where(x => x.Purchase_Date < end_day)
+                                 .Where(x => x.Del_Flag == false)
                                  .Sum(x => x.Money);
 
             return total;
@@ -142,6 +147,7 @@ namespace Eri.Models
                                    .Where(x => x.Purchase_Date >= start_day)
                                    .Where(x => x.Purchase_Date < end_day)
                                    .Where(x => x.Spend_Id == 1)
+                                   .Where(x => x.Del_Flag == false)
                                    .Sum(x => x.Money);
 
             return total;
@@ -188,6 +194,7 @@ namespace Eri.Models
             total = this._context.Tra_Income
                                  .Where(x => x.Payment_Date >= start_day)
                                  .Where(x => x.Payment_Date < end_day)
+                                 .Where(x => x.Del_Flag == false)
                                  .Sum(x => x.Money);
 
             return total;

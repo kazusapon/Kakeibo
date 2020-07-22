@@ -25,14 +25,15 @@ namespace Eri.Models
 
         public Tra_Spending Spend_Fetch(int id)
         {
-            var _result = this._context.Tra_Spending.FirstOrDefault(x => x.Id == id);
+            var _result = this._context.Tra_Spending.Where(x => x.Id == id).Where(x => x.Del_Flag == false).FirstOrDefault();
             return _result;
         }
 
         public async void Delete_Spend(int id)
         {
             var _result = this._context.Tra_Spending.FirstOrDefault(x => x.Id == id);
-            this._context.Tra_Spending.Remove(_result);
+            _result.Updated_At = DateTime.Now;
+            _result.Del_Flag = true;
             await this._context.SaveChangesAsync();
             return;
         }
@@ -52,6 +53,7 @@ namespace Eri.Models
             _result.Money = spend.Money;
             _result.Description = spend.Description;
             _result.Linked_Flag = false;
+            _result.Updated_At = DateTime.Now;
             await this._context.SaveChangesAsync();
         }
 
@@ -79,6 +81,7 @@ namespace Eri.Models
                      where tra_spend.Purchase_Date >= start_day
                      where tra_spend.Purchase_Date <= end_day
                      where tra_spend.Money > 0
+                     where tra_spend.Del_Flag == false
                      orderby tra_spend.Purchase_Date descending
                      orderby tra_spend.Id descending
                      select new SpendDetail
