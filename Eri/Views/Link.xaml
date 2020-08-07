@@ -6,11 +6,15 @@
              mc:Ignorable="d"
              Title="連携"
              x:Class="Eri.Views.LinkPage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="設定"  x:Name="setting" Clicked="Setting_Clicked"/>
+    </ContentPage.ToolbarItems>
+    
     <ContentPage.Content>
-        <StackLayout>
-            <Button Text="アップロード" HorizontalOptions="Center"  BackgroundColor="#b1d6a6" WidthRequest="250"/>
-            <Button Text="ダウンロード" x:Name="DownloadBtn" Clicked="TransactionDownload" HorizontalOptions="Center" BackgroundColor="#cc6228" WidthRequest="250"/>
-            <Button Text="マスターダウンロード" HorizontalOptions="Center" BackgroundColor="#cf56f7" WidthRequest="250"/>
+        <StackLayout VerticalOptions="Center">
+            <Button Text="連携" x:Name="DownloadBtn" Clicked="TransactionDownload" HorizontalOptions="Center" BackgroundColor="#f5b2b2" WidthRequest="250"/>
+            <Button Text="マスターダウンロード" Clicked="MasterDownload" HorizontalOptions="Center" BackgroundColor="#a3b9e0" WidthRequest="250"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

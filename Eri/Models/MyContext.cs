@@ -31,6 +31,7 @@ namespace Eri.Models
         public DbSet<Mst_Fixed> Mst_Fixed { get; set; }
         public DbSet<Mst_Available> Mst_Available { get; set; }
         public DbSet<Mst_User> Mst_User { get; set; }
+        public DbSet<Mst_ConnectionInfo> Mst_ConnectionInfo { get; set; }
         public DbSet<Tra_Spending> Tra_Spending { get; set; }
         public DbSet<Tra_Income> Tra_Income { get; set; }
     }

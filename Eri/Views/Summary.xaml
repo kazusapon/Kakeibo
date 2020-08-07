@@ -40,7 +40,7 @@
                 
                 <StackLayout WidthRequest="350" HorizontalOptions="CenterAndExpand" Margin="0,0,0,0" >
                     <!--　全体の達成度　-->
-                    <Label Text="収支割合" FontSize="Medium" />
+                    <Label Text="収支状況" FontSize="Medium" />
                     <StackLayout Orientation="Horizontal" HeightRequest="30" HorizontalOptions="FillAndExpand">
                         <Label Text="{Binding TotalSpend, StringFormat='{0:#,0}'}" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" />
                         <Label Text="{Binding Diff_Total, StringFormat='{0:#,0}'}" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" FontAttributes="Bold"/>

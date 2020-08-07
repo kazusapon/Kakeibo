@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Eri.Views.SettingPage"
+             Title="設定">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="保存" x:Name="button" Clicked="SaveClicked"/>
+        <ToolbarItem Text="キャンセル" Clicked="CancelClicked" />
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <StackLayout Spacing="20" Padding="15">
+            <Label Text="IPアドレス" FontSize="Medium" />
+            <Entry Text="{Binding ConnectInfo.Ip_Address}" FontSize="Small"/>
+            <Label Text="ポート番号" FontSize="Medium" />
+            <Entry Text="{Binding ConnectInfo.Port}" FontSize="Small" Keyboard="Numeric"/>
+        </StackLayout>
+    </ContentPage.Content>
+    
+</ContentPage>

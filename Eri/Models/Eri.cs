@@ -86,6 +86,14 @@ namespace Eri.Models
         public bool Del_Flag { get; set; }
     }
 
+    public class Mst_ConnectionInfo
+    {
+        [Key]
+        public int Id { get; set; }
+        public string Ip_Address { get; set; }
+        public int Port { get; set; }
+    }
+
     public class SeedData
     { 
         public void InsertSeedData()

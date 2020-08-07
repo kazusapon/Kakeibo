@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace Eri.Models
 {
@@ -34,6 +35,7 @@ namespace Eri.Models
             var _result = this._context.Tra_Spending.FirstOrDefault(x => x.Id == id);
             _result.Updated_At = DateTime.Now;
             _result.Del_Flag = true;
+            _result.Linked_Flag = false;
             await this._context.SaveChangesAsync();
             return;
         }
@@ -83,7 +85,6 @@ namespace Eri.Models
                      where tra_spend.Money > 0
                      where tra_spend.Del_Flag == false
                      orderby tra_spend.Purchase_Date descending
-                     orderby tra_spend.Id descending
                      select new SpendDetail
                      {
                          Id = tra_spend.Id,
@@ -100,6 +101,101 @@ namespace Eri.Models
                     .OrderByDescending(x => x.Payment_Date.Day)
                     .AsEnumerable();*/
                 
+            return result;
+        }
+
+        public async Task SpendMasterInsertAllAsync(List<Mst_Spend> spends)
+        {
+            await this._context.Mst_Spend.AddRangeAsync(spends);
+            await this._context.SaveChangesAsync();
+        }
+
+        public void MstSpendDelete()
+        {
+            if (this._context.Mst_Spend.Count() == 0)
+            {
+                return;
+            }
+
+            var result = this._context.Mst_Spend.ToList();
+            this._context.RemoveRange(result);
+
+            this._context.SaveChanges();
+        }
+
+        public async Task SpendListInsertOrUpdateAllAsync(List<Tra_Spending> spends)
+        {
+            if (spends.Count == 0) { return; }
+
+            List<Tra_Spending> insert = new List<Tra_Spending>();
+            List<Tra_Spending> update = new List<Tra_Spending>();
+
+
+            foreach (var spend in spends)
+            {
+                if (!this._context.Tra_Spending.Any(x => x.Created_At == spend.Created_At))
+                {
+                    insert.Add(spend); // 追加対象の追加
+                }
+                else if (this._context.Tra_Spending.Where(x => x.Created_At == spend.Created_At).Any(x => x.Updated_At < spend.Updated_At))
+                {
+                    update.Add(spend); // 更新対象の追加
+                }
+            }
+
+            if (insert.Count == 0) { return; }
+
+            // 追加処理
+
+            //this._context.Entry(this._context.Tra_Spending).State = EntityState.Added;
+
+            foreach (var ins in insert)
+            {
+                this._context.Add(new Tra_Spending()
+                {
+                    User_Id = 1,
+                    Spend_Id = ins.Spend_Id,
+                    Money = ins.Money,
+                    Purchase_Date = ins.Purchase_Date,
+                    Description = ins.Description,
+                    Linked_Flag = true,
+                    Created_At = ins.Created_At,
+                    Updated_At = ins.Updated_At,
+                    Del_Flag = false
+                });
+            }
+
+            await this._context.SaveChangesAsync();
+
+
+            //this._context.Entry(this._context.Tra_Spending).State = EntityState.Modified;
+
+            if (update.Count == 0) { return;  }
+
+            // 更新処理
+            foreach (var upd in update)
+            {
+                var result = this._context.Tra_Spending.FirstOrDefault(x => x.Created_At == upd.Created_At);
+
+                result.User_Id = upd.User_Id;
+                result.Money = upd.Money;
+                result.Linked_Flag = true;
+                result.Purchase_Date = upd.Purchase_Date;
+                result.Description = upd.Description;
+                result.Spend_Id = upd.Spend_Id;
+                result.Updated_At = upd.Updated_At;
+                result.Del_Flag = upd.Del_Flag;
+            }
+
+            await this._context.SaveChangesAsync();
+        }
+
+        public async Task<List<Tra_Spending>> GetUploadSpendeDataAsync()
+        {
+            var result = await this._context.Tra_Spending
+                                .Where(x => x.Linked_Flag == false)
+                                .OrderBy(x => x.Id)
+                                .ToListAsync();
             return result;
         }
     }

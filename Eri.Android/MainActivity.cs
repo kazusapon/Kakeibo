@@ -7,6 +7,7 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using Xamarin.Forms;
+using Eri.Views;
 
 namespace Eri.Droid
 {
@@ -38,7 +39,7 @@ namespace Eri.Droid
             //  表示 =>   MessagingCenter.Send(App, "dialog_progress",true);
             //  非表示 => MessagingCenter.Send(App, "dialog_progress", false);
             AlertDialog alertDialog = null;
-            MessagingCenter.Subscribe<App, bool>(this, "dialog_progress", (app, isVisible) =>
+            MessagingCenter.Subscribe<LinkPage, bool>(this, "dialog_progress", (page, isVisible) =>
             {
                 if (alertDialog != null)
                 {
@@ -53,7 +54,7 @@ namespace Eri.Droid
                     progress.SetPadding(0, 30, 0, 30);
 
                     alertDialog = new AlertDialog.Builder(this)
-                    .SetTitle("データ連携中です。しばらくお待ちください。")
+                    .SetTitle("データ連携中です。")
                     .SetView(progress)
                     .SetCancelable(false)
                     .Show();

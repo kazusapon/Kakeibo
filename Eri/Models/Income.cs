@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace Eri.Models
 {
@@ -34,6 +35,7 @@ namespace Eri.Models
             var _result = this._context.Tra_Income.FirstOrDefault(x => x.Id == id);
             _result.Updated_At = DateTime.Now;
             _result.Del_Flag = true;
+            _result.Linked_Flag = false;
             await this._context.SaveChangesAsync();
             return;
         }
@@ -83,7 +85,6 @@ namespace Eri.Models
                      where tra_income.Money > 0
                      where tra_income.Del_Flag == false
                      orderby tra_income.Payment_Date descending
-                     orderby tra_income.Id descending
                      select new IncomeDetail
                      {
                          Id = tra_income.Id,
@@ -103,10 +104,96 @@ namespace Eri.Models
             return result;
         }
 
-        public async void IncomeListInsertAllAsync(List<Tra_Income> incomes)
+        public async Task IncomeMasterInsertAllAsync(List<Mst_Income> incomes)
         {
-            await this._context.Tra_Income.AddRangeAsync(incomes);
+            await this._context.Mst_Income.AddRangeAsync(incomes);
             await this._context.SaveChangesAsync();
+        }
+
+        public async Task IncomeListInsertOrUpdateAllAsync(List<Tra_Income> incomes)
+        {
+            if (incomes.Count == 0) { return; }
+
+            List<Tra_Income> insert = new List<Tra_Income>();
+            List<Tra_Income> update = new List<Tra_Income>();
+
+            foreach (var income in incomes)
+            {
+                if (!this._context.Tra_Income.Any(x => x.Created_At == income.Created_At))
+                {
+                    insert.Add(income); // 追加対象の追加
+                }
+                else if (this._context.Tra_Income.Where(x => x.Created_At == income.Created_At).Any(x => x.Updated_At < income.Updated_At))
+                {
+                    update.Add(income); // 更新対象の追加
+                }
+            }
+
+            if (insert.Count == 0) { return; }
+
+            // 追加処理
+            //this._context.Entry(insert).State = EntityState.Added;
+            foreach (var ins in insert)
+            {
+                this._context.Add(new Tra_Income()
+                {
+                    User_Id = 1,
+                    Income_Id = ins.Income_Id,
+                    Money = ins.Money,
+                    Payment_Date = ins.Payment_Date,
+                    Description = ins.Description,
+                    Linked_Flag = true,
+                    Created_At = ins.Created_At,
+                    Updated_At = ins.Updated_At,
+                    Del_Flag = false
+                });
+            }
+
+            await this._context.SaveChangesAsync();
+
+            if (update.Count == 0) { return; }
+
+            // 更新処理
+            foreach (var upd in update)
+            {
+                var result = this._context.Tra_Income.FirstOrDefault(x => x.Created_At == upd.Created_At);
+
+                result.User_Id = upd.User_Id;
+                result.Money = upd.Money;
+                result.Linked_Flag = true;
+                result.Payment_Date = upd.Payment_Date;
+                result.Description = upd.Description;
+                result.Income_Id = upd.Income_Id;
+                result.Updated_At = upd.Updated_At;
+                result.Del_Flag = upd.Del_Flag;
+            }
+
+            //this._context.Entry(this._context.Tra_Income).State = EntityState.Modified;
+            await this._context.SaveChangesAsync();
+        }
+
+        public void MstIncomeDelete()
+        {
+            if (this._context.Mst_Income.Count() == 0)
+            {
+                return;
+            }
+
+            var result = this._context.Mst_Income.ToList();
+            this._context.RemoveRange(result);
+
+            this._context.SaveChanges();
+
+        }
+
+        public async Task<List<Tra_Income>> GetUploadIncomeDataAsync()
+        {
+            var result = await this._context.Tra_Income
+                                .Where(x => x.Linked_Flag == false)
+                                .OrderBy(x => x.Id)
+                                .ToListAsync();
+
+            return result;
         }
     }
 

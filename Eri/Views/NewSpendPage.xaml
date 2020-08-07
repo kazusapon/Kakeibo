@@ -17,7 +17,7 @@
             <Label Text="分類" FontSize="Medium" />
             <Picker x:Name="MyPicker" FontSize="Small" ItemsSource="{Binding PickerListSpend}" ItemDisplayBinding="{Binding Spend_Name}" SelectedIndex="{Binding Selected}" />
             <Label Text="金額" FontSize="Medium" />
-            <Entry Text="{Binding Spends.Money}" FontSize="Small"/>
+            <Entry Text="{Binding Spends.Money}" FontSize="Small" Keyboard="Numeric"/>
             <Label Text="支払日" FontSize="Medium" />
             <DatePicker Date="{Binding Spends.Purchase_Date}" FontSize="Small" Margin="0" Format="yyyy年MM月dd日" />
             <!--<Editor Text="{Binding Item.Payment_Date}" FontSize="Small" Margin="0"/>-->
