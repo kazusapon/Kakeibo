@@ -70,6 +70,7 @@ namespace Eri.ViewModels
         {
             Title = "支出",
             LineJoin = LineJoin.Round,
+            Color = OxyColor.Parse("#ea5550"),
             StrokeThickness = 5,
             DataFieldX = nameof(SpendLineModel.Mon),
             DataFieldY = nameof(SpendLineModel.Money)
@@ -79,7 +80,7 @@ namespace Eri.ViewModels
         private LineSeries income_line_series = new LineSeries()
         {
             Title = "収入",
-            Color = OxyColors.Blue,
+            Color = OxyColor.Parse("#4496d3"),
             LineJoin = LineJoin.Round,
             StrokeThickness = 5,
             DataFieldX = nameof(SpendLineModel.Mon),

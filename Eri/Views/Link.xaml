@@ -13,8 +13,8 @@
     
     <ContentPage.Content>
         <StackLayout VerticalOptions="Center">
-            <Button Text="連携" x:Name="DownloadBtn" Clicked="TransactionDownload" HorizontalOptions="Center" BackgroundColor="#f5b2b2" WidthRequest="250"/>
-            <Button Text="マスターダウンロード" Clicked="MasterDownload" HorizontalOptions="Center" BackgroundColor="#a3b9e0" WidthRequest="250"/>
+            <Button Text="家計簿データ連携" x:Name="DownloadBtn" Clicked="TransactionDownload" HorizontalOptions="Center" BackgroundColor="#f5b2b2" WidthRequest="150" Margin="0,0,0,30"/>
+            <Button Text="マスター連携" Clicked="MasterDownload" HorizontalOptions="Center" BackgroundColor="#a3b9e0" WidthRequest="150" Margin="0,30,0,0"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

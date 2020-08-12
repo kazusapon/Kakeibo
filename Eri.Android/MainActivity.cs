@@ -13,7 +13,7 @@ namespace Eri.Droid
 {
     //[Activity(Label = "Eri", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     //スプラッシュ画面の設定
-    [Activity(Label = "Eri", Icon = "@mipmap/icon", Theme = "@style/MyTheme.Splash", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "Eri", Icon = "@drawable/icon", Theme = "@style/MyTheme.Splash", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     //public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
